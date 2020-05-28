@@ -1,0 +1,80 @@
+OVERVIEW OF DOCKER FOR DEVELOPMENET
+CREATING MYSQL CONTAINER with DOCKER
+
+docker
+ docker images
+ docker ps
+ docker images -a
+ Docker ps -a
+ 
+ docker pull mysql
+ docker images
+ docker run mysql
+
+** run a container**** 
+
+  15  docker run -e MYSQL_ROOT_PASSWORD=itversity --name mysql_retail mysql
+  
+ *** life cycle of container****
+ docker stop musing_khorana
+ docker rm musing_khorana
+ 
+ docker images
+ docker ps
+ 
+ *** run a container and import data into this
+docker run -e MYSQL_ROOT_PASSWORD=itversity --name mysql_retail -v C:\Users\kbenayad\Desktop\data\data\retail_db:/retail_db -p 3306:3306 -d mysql
+
+*** look port ***
+docker logs -f mysql_retail
+
+*** look into container******
+
+docker exec -it mysql_retail ls -ltr
+
+****** connect *********
+
+docker exec -it mysql_retail mysql -u root -p
+
+****** create database give access  and fill data **********
+create database retail
+create user retail_user identified by 'itversity';
+grant all on retail.* to retail_user;
+flush privileges;
+use retail;
+
+
+exit
+
+********* connect with new credential****
+docker exec -it mysql_retail mysql -u retail_user -p
+
+use retail
+source create_db.sql
+************************************************************
+**************************build new image********************
+ 
+********* create dockerfile********
+create Dockerfile
+mkdir dockerfile
+vi Dockerfile
+	FROM mysql
+	ENV MYSQL_ROOT_PASSWORD=itversity
+	RUN mkdir /data
+	EXPOSE 3306
+
+******build image***********
+docker build -t mysql:itversity ~/Desktop/data/mysql
+
+******* create container************
+$ docker run --name mysql_retail_custom -d mysql:itversity
+
+**********exec container ***********
+docker exec -it mysql_retail_custom  mysql -u root -p
+
+
+
+
+ 
+
+
