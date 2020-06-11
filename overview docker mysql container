@@ -75,6 +75,78 @@ docker exec -it mysql_retail_custom  mysql -u root -p
 
 
 
+***********************************************************************************
+*********************************************************************************
+*************Create postgres images
+
+docker pull postgres
+
+docker run --name pg_retail_dw -d -e POSTGERS_PASSWORD=itversity -p 5432:5432 postgres
+
+docker start pg_retail_dw
+
+docker exec -it pg_retail_dw psql -U postgres
+\l
+create database retail_dw;
+create user retail_user with encrypted password 'itversity';
+grant all privileges on database retail_dw to retail_user;
+
+docker exec -it pg_retail_dw psql -U postgres -W  ==> **-U postgres = root in mysql**
+docker exec -it pg_retail_dw psql -U retail_user -d retail_dw -W
+
+\l  list database
+\c retail_dw   select database
+\d show tables
+cretate table 
+
+ 
+
+
+
+************************ install pycharm*********
+create new project retail_data_pipeline
+add in title of environement retail_data_pipeline_env
+
+open terminal : pip freeze to see which modul we've installed
+pypi.org to choose mysql and postgres connector
+create new file : requirements.txt
+past into requirements :mysql-connector-python==8.0.20
+			psycopg2==2.8.5
+			pandas==1.0.4
+ls // DIR(windows)
+
+pip install -r requirements.txt
+
+create mysql_validation.py to make connextion with mysql  ==> test the connexion
+create postgres_validation.py to make connextion with postgres (source https://wiki.postgresql.org/wiki/Psycopg2_Tutorial) ==> text connextion
+
+create app.py
+create util.py
+create read.py
+create process.py
+create write.py
+
+==========*****************************========================
+Project Pipeline
+==========**********************************
+
+source (MySQL) ==> Pipeline ==>target ( DW Postgresql)
+retail_db ==>    retail_ETL     ==> retail_dw
+		Read-process-write
+
+retail_db : database= mysql_retail usename: retail_user mp:itversity
+transactional tables : orders + orders_items
+		Master data tables : product, categori, departments, customers
+
+retail_dw : Fact:database name : retail_dw username: retail
+ fact_product_revenue_dly (date_id,product_id, product_revenue_outstanding_revenue_total_order_cnt,revenue_order_cnt,canceled_order_cnt,batch_id,load_id
+		dimension: dim_product: priduct_id, priduct_name,category_name,department_name,inserted_name
+		dimension - dim_customer
+
+  
+
+
+
  
 
 
