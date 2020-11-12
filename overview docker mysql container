@@ -6,6 +6,7 @@ docker
  docker ps
  docker images -a
  Docker ps -a
+ docker logs idcontainermysql
  
  docker pull mysql
  docker images
@@ -144,6 +145,11 @@ retail_dw : Fact:database name : retail_dw username: retail
  fact_product_revenue_dly (date_id,product_id, product_revenue_outstanding_revenue_total_order_cnt,revenue_order_cnt,canceled_order_cnt,batch_id,load_id
 		dimension: dim_product: priduct_id, priduct_name,category_name,department_name,inserted_name
 		dimension - dim_customer
+		
+************push our image
+docker tag redis kamusone/my_first_image
+docker push kamus/myfirst_image
+
 
   
 
