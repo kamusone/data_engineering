@@ -10,6 +10,7 @@ docker
  docker pull mysql
  docker images
  docker run mysql
+ dockze run redis
 
 ** run a container**** 
 
@@ -31,6 +32,7 @@ docker logs -f mysql_retail
 *** look into container******
 
 docker exec -it mysql_retail ls -ltr
+docker exec -it names_redis bash
 
 ****** connect *********
 
